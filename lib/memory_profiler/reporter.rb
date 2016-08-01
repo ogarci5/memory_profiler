@@ -99,7 +99,7 @@ module MemoryProfiler
           location   = helper.lookup_location(file, line)
           klass      = obj.class rescue nil
           class_name = helper.lookup_class_name(klass)
-          gem        = helper.guess_gem(file)
+          gem_name   = helper.guess_gem(file)
 
           string     = '' << obj  if klass == String
 
@@ -108,7 +108,7 @@ module MemoryProfiler
           memsize = ObjectSpace.memsize_of(obj) + rvalue_size_adjustment
           # compensate for API bug
           memsize = rvalue_size if memsize > 100_000_000_000
-          result[object_id] = MemoryProfiler::Stat.new(class_name, gem, file, location, memsize, string)
+          result[object_id] = MemoryProfiler::Stat.new(class_name, gem_name, file, location, memsize, string)
         rescue
           # give up if any any error occurs inspecting the object
         end
